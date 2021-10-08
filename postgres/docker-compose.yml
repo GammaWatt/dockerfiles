@@ -1,0 +1,38 @@
+# References:
+# https://hub.docker.com/_/postgres
+# https://github.com/docker-library/postgres/tree/7f5f6da5a1976bfd2c6d989e20cef080d0d9c68f/13/alpine
+# https://stackoverflow.com/questions/46981073/how-to-run-postgres-in-a-docker-alpine-linux-container#47040707
+
+version: "3.7"
+
+# Run by using docker-compose up -d
+# Stop by using docker-compose rm -fsv
+
+services:
+  postgres:
+    container_name: postgres_docker
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: cookies
+      # POSTGRES_INITDB_ARGS: 
+      # POSTGRES_INITDB_WALDIR: 
+      # POSTGRES_HOST_AUTH_METHOD: 
+      PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      lemp:
+
+# Created externally via `docker network create lemp`
+# Otherwise, docker-compose makes its own network, prefixed only for the containers within this file
+# networks:
+#   lemp:
+
+networks:
+  lemp:
+    external:
+      name: lemp

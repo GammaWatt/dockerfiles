@@ -1,0 +1,40 @@
+version: "3.7"
+
+# Run by using docker-compose up -d
+# Stop by using docker-compose rm -fsv
+
+# docker run --name mysql --rm -ti -p "3306:3306" alpine:latest
+
+services:
+  mysql:
+    container_name: mysql_docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mymariadb:alpine
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./mysql/mysql:/etc/mysql
+      - ./mysql/my.cnf.d:/etc/my.cnf.d
+      - ./mysql/my.cnf:/etc/my.cnf
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: initial_db
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_COLLATION: utf8mb4
+      MYSQL_CHARSET: utf8
+    networks:
+      lemp:
+
+# Created externally via `docker network create lemp`
+# Otherwise, docker-compose makes its own network, prefixed only for the containers within this file
+# networks:
+#   lemp:
+
+networks:
+  lemp:
+    external:
+      name: lemp

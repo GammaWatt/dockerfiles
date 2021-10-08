@@ -1,0 +1,33 @@
+version: "3.7"
+
+# Run by using docker-compose up -d
+# Stop by using docker-compose rm -fsv
+
+# docker run --name php-fpm --rm -ti -p "9000:9000" -v $(pwd)/php:/etc/php7 alpine:latest
+
+services:
+  php-fpm:
+    container_name: php-fpm_docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: myphp-fpm:alpine
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./php:/etc/php7
+      - ../../certs_ssl:/etc/certs
+        # html (default) virtualhost files
+      - ../nginx/www/html:/var/www/html
+    networks:
+      lemp:
+
+# Created externally via `docker network create lemp`
+# Otherwise, docker-compose makes its own network, prefixed only for the containers within this file
+# networks:
+#   lemp:
+
+networks:
+  lemp:
+    external:
+      name: lemp

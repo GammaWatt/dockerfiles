@@ -1,0 +1,33 @@
+version: "3.7"
+
+# Run by using docker-compose up -d
+# Stop by using docker-compose rm -fsv
+
+# docker run --name alpine --rm -ti -p "80:80" -v $(pwd)/nginx:/etc/nginx -v $(pwd)/www:/var/www alpine:latest
+
+services:
+  nginx:
+    container_name: nginx_docker
+    image: nginx:alpine-perl
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx
+      - ./www:/usr/share/nginx
+      - ../../certs_ssl:/etc/certs
+    networks:
+      external:
+        name: lemp
+    networks:
+      lemp:
+
+# Created externally via `docker network create lemp`
+# Otherwise, docker-compose makes its own network, prefixed only for the containers within this file
+# networks:
+#   lemp:
+
+networks:
+  lemp:
+    external:
+      name: lemp

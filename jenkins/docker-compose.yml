@@ -1,0 +1,58 @@
+version: "3.7"
+
+# Run by using docker-compose up -d
+# Stop by using docker-compose rm -fsv
+    
+services:
+  dind_jenkins_docker:
+    # Give container a name
+    container_name: jenkins-docker
+    # Docker in docker image, for running docker containers within docker containers. This is necessary for Jenkins to work.
+    image: docker:dind
+    # In order for jenkins container to run, container must be run with privileged access
+    privileged: true
+    command: --storage-driver overlay2
+    ports:
+      # Exposes port 2376 on container via port 2376 on host to make executing commands on the container more convenient from the host
+      - "2376:2376"
+    networks:
+      jenkins:
+        aliases:
+          # Makes the docker in docker container available as docker within jenkins network
+          - docker
+    volumes:
+      # Maps /certs/clients directory in container to volume named jenkins-docker-certs
+      - jenkins-docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
+    environment:
+      # Enables TLS in docker server
+      DOCKER_TLS_CERTDIR: /certs
+
+  jenkins_custom:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - dind_jenkins_docker
+    # Since the image is built, this sets the name (tag) of the image
+    image: myjenkins-blueocean:1.1
+    container_name: myjenkins-container
+    ports:
+      - "8082:8080"
+      - "50000:50000"
+    networks: 
+      - jenkins
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+    environment:
+      DOCKER_HOST: tcp://docker:2376
+      DOCKER_CERT_PATH: /certs/client
+      DOCKER_TLS_VERIFY: 1
+
+volumes:
+  jenkins-docker-certs:
+  jenkins-data:
+
+networks:
+  jenkins:

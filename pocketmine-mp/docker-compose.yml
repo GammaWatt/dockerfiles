@@ -1,0 +1,18 @@
+version: "3.7"
+
+# Run by using docker-compose up -d
+# Stop by using docker-compose rm -fsv
+
+# docker run --rm --name mp -it -p 19132:19132/udp -v $PWD/data:/data -v $PWD/plugins:/plugins pmmp/pocketmine-mp:3.22.5
+
+services:
+  PocketMine-MP:
+    container_name: pmmp-docker
+    # image: pmmp/pocketmine-mp:3.22.5
+    image: pmmp/pocketmine-mp:latest
+    volumes:
+      - ./data:/data
+      - ./plugins:/plugins
+    ports:
+      - 19132:19132/udp
+        
