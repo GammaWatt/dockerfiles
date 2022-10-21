@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+  editor:
+    image: local/gatsby
+    container_name: gammawatt.github.io
+    build:
+      context: .
+    environment:
+      - NODE_PATH=/home/node/node_modules
+    volumes:
+    - ${HOME}/.ssh/id_rsa:/home/node/.ssh/id_rsa
+    - ${HOME}/.ssh/id_rsa.pub:/home/node/.ssh/id_rsa.pub
+    - /var/volume/noderepo/gatsby:/home/node/node_modules
+    - /var/volume/gammawatt.github.io:/home/node
+    - /var/volume/gammawatt.github.io/.vscode-server:/home/node/.vscode-server
+    # ssh keys
+    # vscode
+    # nodemodules
+    # src code
+    # affiliate store
+    ports:
+      - 15688:8000
+      - 15689:9000
+    command: tail -F /dev/null

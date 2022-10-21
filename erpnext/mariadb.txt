@@ -1,0 +1,28 @@
+  139  docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306  mariadb:10.6
+  142  docker run --rm -d mariadb:10.6 sleep 1m
+  143  docker cp 578758b9fdd392ce2a6ed2da464e7d317a2ab5279b1e6e0f496eaa86ae7a3335:/etc/mysql/mariadb.conf.d/50-server.cnf ./
+  145  #docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306  mariadb:10.6
+  148  FROM mariadb:10.6
+  149  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  152  FROM mariadb:10.6
+  153  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  156  FROM mariadb:10.6
+  157  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  160  FROM mariadb:10.6
+  161  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  176  FROM mariadb:10.6
+  177  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  184  docker image rm mariadb:10.6 
+  186  FROM mariadb:10.3
+  187  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  206  FROM mariadb:10.3
+  207  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  210  FROM mariadb:10.3
+  211  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  215  FROM mariadb:10.3
+  216  ADD 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+  318  RUN apt-get install python3-dev git python3-setuptools python3-pip libmysqlclient-dev python3-venv libmysqlclient-dev wkhtmltopdf redis-server curl xvfb libfontconfig mariadb-client
+  332  RUN apt update && apt-get install python3-dev git python3-setuptools python3-pip libmysqlclient-dev python3-venv libmariadb-dev-dev wkhtmltopdf redis-server curl xvfb libfontconfig mariadb-client cron
+  344  RUN apt update && apt-get install -y python3-dev git python3-setuptools python3-pip libmysqlclient-dev python3-venv libmariadb-dev-dev wkhtmltopdf redis-server curl xvfb libfontconfig mariadb-client cron
+  356  RUN apt update && apt-get install -y python3-dev git python3-setuptools python3-pip python3-venv libmariadb-dev wkhtmltopdf redis-server curl xvfb libfontconfig mariadb-client cron
+  462  history | grep mariadb > mariadb.txt

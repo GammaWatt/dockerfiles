@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+  puppeteer:
+    restart: "no"
+    image: local/puppeteer:18
+    working_dir: /home/pptruser
+    build:
+      context: .
+    user: pptruser
+    container_name: puppeteer
+    ports:
+      - 12567:5901
+      - 12568:6080
+      - 12579:9222
+    volumes:
+      - /var/volume/puppeteer/sprwt/.vscode-server:/home/pptruser/.vscode-server
+      - /var/volume/puppeteer/sprwt/src:/home/pptruser/src
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/cache

@@ -1,0 +1,50 @@
+version: '3.6'
+
+services:
+  app:
+    image: local/erpnext:v13-latest
+    container_name: sprwt-erpnext
+    restart: "no"
+    depends_on:
+      - db
+    links:
+      - "db:database"
+    environment:
+      - SITENAME=erpnext.local
+      - DB_NAME=erpnext_db
+      - DB_HOST=sprwt-erpnext-db
+      - DB_PORT=3306
+      - DB_TYPE=mariadb
+      - DB_ROOT_PASSWORD=password
+      - DB_PASSWORD=password
+      - ADMIN_PASSWORD=password
+    volumes:
+      - /var/volume/sprwt-erpnext/app:/home/frappe
+    networks:
+      - erpnext_net-sprwt
+    ports:
+      - 12160:8000
+      - 12161:12161
+    command:
+      #  - sleep infinity
+      - bench
+      - start
+
+  db:
+    image: local/erpnext-db
+    container_name: sprwt-erpnext-db
+    restart: "no"
+    networks: 
+      - erpnext_net-sprwt
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=frappe
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=db
+    volumes:
+      - /var/volume/sprwt-erpnext/db:/var/lib/mysql
+    ports:
+      - 12163:3306
+
+networks:
+  erpnext_net-sprwt:

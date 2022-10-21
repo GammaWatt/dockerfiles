@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export XKL_XMODMAP_DISABLE=1
+# vncconfig -iconic &
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+
+exec /usr/bin/openbox-session &
+
+# [ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+# [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+# [ -r /etc/X11/.Xresources ] && xrdb /etc/X11/.Xresources
+
+# xsetroot -solid grey
+feh --bg-scale --image-bg black /usr/share/backgrounds/pexels-dan-cristian-paduret-4041750.jpg

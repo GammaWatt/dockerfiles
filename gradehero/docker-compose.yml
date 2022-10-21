@@ -1,0 +1,135 @@
+version: '3.6'
+
+services:
+  reverse_proxy:
+    image: nginx:alpine
+    restart: "no"
+    container_name: gradehero-reverse-proxy
+    networks:
+      - net
+    ports:
+      - "14080:80"
+      - "14081:443"
+    volumes:
+      - /var/volume/gradehero/reverse_proxy_conf:/etc/nginx
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/cache/nginx/
+
+  web:
+    image: nginx:alpine
+    restart: "no"
+    container_name: gradehero-web
+    networks:
+      - net
+    ports:
+      - "14082:80"
+      - "14083:443"
+    volumes:
+      - /var/volume/gradehero/web:/usr/share/nginx/html
+      - /var/volume/gradehero/webconf:/etc/nginx
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/cache/nginx/
+
+  docs:
+    image: ghost:4-alpine
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 14088:2368
+    networks:
+      - net
+    environment:
+      # see https://ghost.org/docs/config/#configuration-options
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: root
+      database__connection__password: password
+      database__connection__database: ghost
+      # this url value is just an example, and is likely wrong for your environment!
+      url: http://debkube.local:14088
+      # contrary to the default mentioned in the linked documentation, this image defaults to NODE_ENV=production (so development mode needs to be explicitly specified if desired)
+      # production requires having a reverse proxy and SSL
+      NODE_ENV: development
+    volumes:
+      - /var/volume/gradehero/docs/content:/var/lib/ghost/content
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/cache
+
+  dashboard:
+    image: local/gradehero-dashboard:latest
+    build:
+      context: dashboard
+    restart: "no"
+    container_name: gradehero-dashboard
+    user: "node"
+    networks:
+      - net
+    ports:
+      - "14084:8080"
+    working_dir: /home/node/app
+    volumes:
+      - /var/volume/gradehero/dashboard:/home/node/app
+      - ${HOME}/.ssh:/home/node/.ssh
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/cache
+    # command: yarn dev
+    command: sleep infinity
+
+  api:
+    image: local/gradehero-api:latest
+    build:
+      context: api
+    restart: "no"
+    container_name: gradehero-api
+    depends_on:
+      - db
+    networks:
+      - net
+    ports:
+      - "14085:9000"
+    working_dir: /usr/src/app
+    volumes:
+      - /var/volume/gradehero/api/src:/usr/src/app
+      - /var/volume/gradehero/api/pkg:/go/pkg
+      - ${HOME}/.ssh:/root/.ssh
+      - /var/volume/gradehero/api/.vscode-server:/root/.vscode-server
+      - type: bind
+        source: /tmp
+        target: /tmp
+      - type: tmpfs
+        target: /var/cache
+    command: sleep infinity
+    # command: go run -v .
+
+  db:
+    image: mariadb:latest
+    restart: "no"
+    container_name: gradehero-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=db
+    networks:
+      - net
+    ports:
+      - 14086:3306
+    volumes:
+      - /var/volume/gradehero/db:/var/lib/mysql
+      - /var/volume/gradehero/dbconf:/etc/mysql
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/cache
+
+networks:
+  net:

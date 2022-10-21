@@ -1,0 +1,135 @@
+   32  docker ps
+   56  docker ps
+  133  docker ps
+  135  docker ps
+  136  #docker run -ti 
+  137  docker create network erpnext_net
+  138  docker network create erpnext_net
+  139  docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306  mariadb:10.6
+  140  docker log -f erpnext-db
+  141  docker logs -f erpnext-db
+  142  docker run --rm -d mariadb:10.6 sleep 1m
+  143  docker cp 578758b9fdd392ce2a6ed2da464e7d317a2ab5279b1e6e0f496eaa86ae7a3335:/etc/mysql/mariadb.conf.d/50-server.cnf ./
+  145  #docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306  mariadb:10.6
+  146  cat <<EOF | docker build -f -
+  147  cat <<EOF | docker build -t local/erpnext:db -f -
+  151  cat <<EOF | docker build -t local/erpnext:db -f - .
+  155  cat <<EOF | docker build -t local/erpnext-db:latest -f -
+  159  cat <<EOF | docker build -t local/erpnext-db:latest -f - .
+  163  docker image rm local/erpnext:db
+  165  docker image rm 3778972aa083
+  166  docker image rm ed1c10a27bf2
+  167  docker image rm 3778972aa083
+  168  docker container ls
+  169  docker stop erpnext-db
+  170  docker image rm 3778972aa083
+  171  docker container rm erpnext-db
+  172  docker image rm 3778972aa083
+  173  docker image rm ed1c10a27bf2
+  174  docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306 local/erpnext-db
+  175  cat <<EOF | docker build -t local/erpnext-db:latest -f - .
+  179  docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306 local/erpnext-db
+  180  docker ps
+  181  docker container stop erpnext-db
+  182  docker container rm erpnext-db
+  183  docker image rm local/erpnext-db:latest
+  184  docker image rm mariadb:10.6 
+  185  cat <<EOF | docker build -t local/erpnext-db:latest -f - .
+  189  docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306 local/erpnext-db
+  190  docker logs -f erpnext-db 
+  191  docker container rm erpnext-db
+  192  docker volume rm erpnextdata
+  193  docker volume ls
+  194  docker volume rm erpnext-app-v13
+  195  docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306 local/erpnext-db
+  196  docker logs -f erpnext-db 
+  197  docker image ls
+  201  docker image pull index.docker.io/appsmith/appsmith-ce
+  202  docker ps
+  203  docker stop erpnext-db && docker container rm erpnext-db
+  204  docker volume rm erpnextdata 
+  205  #cat <<EOF | docker build -t local/erpnext-db:latest -f - .
+  209  cat <<EOF | docker build -t local/erpnext-db:latest -f - .
+  214  cat <<EOF | docker build -t local/erpnext-db:latest -f - .
+  218  docker run -d --name erpnext-db --network erpnext_net -v erpnextdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=frappe -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=db -p 64266:3306 local/erpnext-db
+  219  docker logs -f erpnext-db
+  220  #docker run --name gradehero-client -p :80 :8000 :9000 :9001 node:14-bullseye 
+  221  docker network create gradehero_net
+  222  docker run --name gradehero-client --network gradehero_net -p 22180:80 22181:8000 22185:9000 22186:9001 --mount type=tmpfs,destination=/home/user/dev -v gradehero-front:/home/user/app node:14-bullseye /bin/bash
+  223  docker run --name gradehero-client --network gradehero_net -p 22180:80 -p 22181:8000 -p 22185:9000 -p 22186:9001 --mount type=tmpfs,destination=/home/user/dev -v gradehero-front:/home/user/app node:14-bullseye /bin/bash
+  224  docker container ls
+  225  docker run --name gradehero-client --network gradehero_net -p 22180:80 -p 22181:8000 -p 22185:9000 -p 22186:9001 --mount type=tmpfs,destination=/home/user/dev -v gradehero-front:/home/user/app --entrypoint /bin/bash node:14-bullseye
+  226  docker container rm gradehero-client 
+  227  docker run --name gradehero-client --network gradehero_net -p 22180:80 -p 22181:8000 -p 22185:9000 -p 22186:9001 --mount type=tmpfs,destination=/home/user/dev -v gradehero-front:/home/user/app --entrypoint /bin/bash node:14-bullseye
+  228  docker container rm gradehero-client 
+  229  docker run -ti --name gradehero-client --network gradehero_net -p 22180:80 -p 22181:8000 -p 22185:9000 -p 22186:9001 --mount type=tmpfs,destination=/home/user/dev -v gradehero-front:/home/user/app --entrypoint /bin/bash node:14-bullseye
+  239  docker ps
+  257  docker run -ti -p 12180:8000 -p 12181:9000 --network erpnext_net -v erpnext-app-v13:/home/frappe/app debian:slim
+  258  docker run -ti -p 12180:8000 -p 12181:9000 --network erpnext_net -v erpnext-app-v13:/home/frappe/app ubuntu:22.04 /bin/bash
+  259  docker container rm crazy_murdock 
+  260  docker run -ti -p 12180:8000 -p 12181:9000 --network erpnext_net -v erpnext-app-v13:/home/frappe/app --name erpnext-app-v13 ubuntu:22.04 /bin/bash
+  261  docker container rm erpnext-app-v13
+  262  cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  269  #cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  276  cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  286  docker image rm ubuntu:22.04 
+  287  cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  297  cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  309  cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  323  cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  335  cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  347  cat <<EOF | docker build -t local/erpnext-app:v13 -f - .
+  359  #docker run -ti -p 12180:8000 -p 12181:9000 --network erpnext_net -v erpnext-app-v13:/home/frappe/app --name erpnext-app-v13 ubuntu:22.04 /bin/bash
+  360  docker volume ls
+  361  docker run -ti -p 12180:8000 -p 12181:9000 --network erpnext_net -v erpnext-app-v13:/home/frappe/app --name erpnext-app-v13 local/erpnext-app:v13 /bin/bash
+  374  docker exec -ti erpnext-app-v13 /bin/bash
+  384  docker run -d --restart unless-stopped --name appsmith -p 13180:80 -p13181:443 -v /var/volume/appsmith/stacks:/appsmith-stacks index.docker.io/appsmith/appsmith-ce
+  385  docker logs -f appsmith 
+  386  docker run -d --restart unless-stopped --name appsmith -p 13180:80 -p13181:443 -v appsmith-stacks:/appsmith-stacks index.docker.io/appsmith/appsmith-ce
+  387  docker containers rm appsmith
+  388  docker container rm appsmith
+  389  docker container stop appsmith
+  390  docker container rm appsmith
+  391  docker run -d --restart unless-stopped --name appsmith -p 13180:80 -p13181:443 -v appsmith-stacks:/appsmith-stacks index.docker.io/appsmith/appsmith-ce
+  392  docker logs -f appsmith 
+  393  docker container stop appsmith 
+  394  docker container rm appsmith  && docker volume rm appsmith-stacks 
+  395  docker logs -f appsmith 
+  396  docker ps
+  397  docker stop appsmith
+  399  docker cp /var/share/public/Documents/workspace/src/github.com/GammaWatt/frontend2 gradehero-client:/home/user/app/
+  400  docker run -d --name appsmith -p 13180:80 -v "appsmith-stacks:/appsmith-stacks" --pull always appsmith/appsmith-ce
+  402  docker container ls -a
+  403  docker container rm relaxed_lehmann happy_raman jovial_yonath
+  404  docker exec erpnext-app-v13 su -c frappe 'cd ~/app/frappe-bench && bench start'
+  405  docker exec erpnext-app-v13 su frappe -c 'cd ~/app/frappe-bench && bench start'
+  406  docker logs erpnext-app-v13
+  407  docker cp /var/share/public/Documents/workspace/src/github.com/GammaWatt/frontend2/.* gradehero-client:/home/user/app/
+  408  docker cp /var/share/public/Documents/workspace/src/github.com/GammaWatt/frontend2/.* -- gradehero-client:/home/user/app/
+  409  docker cp /var/share/public/Documents/workspace/src/github.com/GammaWatt/frontend2/.gitignore gradehero-client:/home/user/app/
+  410  docker cp /var/share/public/Documents/workspace/src/github.com/GammaWatt/frontend2/.git gradehero-client:/home/user/app/
+  414  docker container ls
+  415  docker container ls -a
+  416  docker run -d --restart unless-stopped --network gradehero_net --name gradehero-db -p 22136:3306 -v gradeherodata:/var/lib/mysql local/erpnext-db
+  417  docker logs -f gradehero-db
+  418  docker rm gradehero-db
+  419  docker stop gradehero-db
+  420  docker rm gradehero-db
+  421  docker run -d --restart unless-stopped --network gradehero_net --name gradehero-db -p 22136:3306 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=gradehero -e MYSQL_USER=gradeheroadmin -e MYSQL_PASSWORD=password -v gradeherodata:/var/lib/mysql local/erpnext-db
+  422  docker logs -f gradehero-db
+  423  history | grep docker | grep grade
+  424  #docker run -ti --name gradehero-client --network gradehero_net -p 22190:80 -p 22191:8000 -p 22195:9000 -p 22186:9001 --mount type=tmpfs,destination=/home/user/dev -v gradehero-api:/home/user/app --entrypoint /bin/bash node:14-bullseye
+  425  docker container ls
+  426  docker run -d --name gradehero-client --network gradehero_net -p 22190:80 -p 22191:8000 -p 22195:9000 -p 22196:9001 --mount type=tmpfs,destination=/home/user/dev -v gradehero-api:/home/user/app --entrypoint /bin/bash node:14-bullseye
+  427  docker run -d --name gradehero-api --network gradehero_net -p 22190:80 -p 22191:8000 -p 22195:9000 -p 22196:9001 --mount type=tmpfs,destination=/home/user/dev -v gradehero-api:/home/user/app --entrypoint /bin/bash node:14-bullseye
+  429  docker ps
+  430  docker start erpnext-app-v13 
+  431  docker ps
+  432  docker exec erpnext-app-v13 su frappe -c 'cd /home/frappe/app/frappe-bench && bench start'
+  433  docker ps
+  434  docker start erpnext-db
+  435  docker commit erpnext-app-v13  -t local/erpnext-app-v13:latest
+  436  docker commit erpnext-app-v13 local/erpnext-app-v13:latest
+  437  mkdir docker
+  439  rm -r ../docker
+  443  history | grep docker > docker.txt
